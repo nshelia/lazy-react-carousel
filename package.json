@@ -1,0 +1,25 @@
+{
+  "name": "lazy-react-carousel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.bundle.js",
+  "scripts": {
+    "dev": "webpack-dev-server --hot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nshelia/lazy-react-carousel.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nshelia/lazy-react-carousel/issues"
+  },
+  "homepage": "https://github.com/nshelia/lazy-react-carousel#readme",
+  "dependencies": {
+    "@babel/preset-env": "^7.3.4",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "webpack": "^4.29.5"
+  }
+}
