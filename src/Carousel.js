@@ -174,10 +174,16 @@ export default function Carousel(props) {
 		return null
 	}
 
+	const renderCounter = () => {
+		if (props.showCounter) {
+			return <span className="carousel-counter">{currentSlidePosition} / {currentSlideCount}</span>
+		}
+	}
+
 	return (
 		<React.Fragment>
 			<div style={{"display": "flex","alignItems": "center","flexDirection": "column"}}>
-				<h1>{currentSlidePosition} / {currentSlideCount}</h1>
+				{renderCounter()}
 			</div>
 			<div className="carousel-wrapper">
 				<div className="carousel-slides-wrapper" ref={sliderWrapper}>
