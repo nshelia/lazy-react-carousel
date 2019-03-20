@@ -2,8 +2,10 @@ import React, { useState } from "react"
 import Carousel from "../src/Carousel"
 import leftArrow from "assets/left-arrow.svg"
 import rightArrow from "assets/right-arrow.svg"
+import { hot } from 'react-hot-loader/root'
 
-export default function Application() {
+
+function Application() {
 		
 	const [currentSlide,setCurrentSlide] = useState(1)
 
@@ -50,4 +52,4 @@ export default function Application() {
 			</div>
 		</div>
 	)
-}
+}export default hot(Application)
