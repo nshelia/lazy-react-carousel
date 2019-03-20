@@ -1,4 +1,5 @@
 import React, { useImperativeHandle, forwardRef, useRef, useState, useEffect } from "react"
+import './sass/carousel.scss';
 
 const Carousel = forwardRef((props,ref) => {
 	const sliderWrapper = useRef()

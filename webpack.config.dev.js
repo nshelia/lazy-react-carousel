@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = () => {
   return {
@@ -52,10 +51,7 @@ module.exports = () => {
         filename: 'index.html',
         template: './dev/template/index.html',
         inject:true
-      }),
-      new MiniCssExtractPlugin({
-        filename: '[name].css',
-      }),
+      })
     ],
     devServer: {
       contentBase: path.resolve(__dirname, "./dist"), 
