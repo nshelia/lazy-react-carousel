@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack')
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MinifyPlugin = require("babel-minify-webpack-plugin");
 
 module.exports = () => {
   return {
@@ -78,6 +79,7 @@ module.exports = () => {
       new MiniCssExtractPlugin({
         filename: '[name].css',
       }),
+      new MinifyPlugin()
     ],
     devServer: {
       contentBase: path.resolve(__dirname, "./dist"), 
