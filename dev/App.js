@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useRef } from "react"
 import Carousel from "../src/Carousel"
 import leftArrow from "assets/left-arrow.svg"
 import rightArrow from "assets/right-arrow.svg"
@@ -6,9 +6,8 @@ import { hot } from 'react-hot-loader/root'
 
 
 function Application() {
-		
-	const [currentSlide,setCurrentSlide] = useState(1)
-
+	const ref = useRef()
+	
 	const renderList = () => {
 		return Array(10).fill(null).map((item,index) => {
 			return (
@@ -31,20 +30,21 @@ function Application() {
 		</div>
 	)
 
+
 	return (
 		<div className="container">
 			<div className="carousel-app">
-				<h1>Lazy React Carousel</h1>
-				<button onClick={() => setCurrentSlide(1)}>go to slide 1</button>
-				<button onClick={() => setCurrentSlide(2)}>go to slide 2</button>
-				<button onClick={() => setCurrentSlide(3)}>go to slide 3</button>
-				<button onClick={() => setCurrentSlide(4)}>go to slide 4</button>
-				<button onClick={() => setCurrentSlide(5)}>go to slide 5</button>
+				<h1>Lazy React Carousel </h1>
+				<button onClick={() => ref.current.scrollToSlide(1)}>go to slide 1</button>
+				<button onClick={() => ref.current.scrollToSlide(2)}>go to slide 2</button>
+				<button onClick={() => ref.current.scrollToSlide(3)}>go to slide 3</button>
+				<button onClick={() => ref.current.scrollToSlide(4)}>go to slide 4</button>
+				<button onClick={() => ref.current.scrollToSlide(5)}>go to slide 5</button>
 				<div className="col-8">
 					<Carousel
 						nextArrow={nextArrow}
 						prevArrow={prevArrow}
-						currentSlide={currentSlide}
+						ref={ref}
 					>
 						{renderList()}
 					</Carousel>
@@ -52,4 +52,6 @@ function Application() {
 			</div>
 		</div>
 	)
-}export default hot(Application)
+}
+
+export default hot(Application)

@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect } from "react"
+import React, { useImperativeHandle, forwardRef, useRef, useState, useEffect } from "react"
 
-export default function Carousel(props) {
+const Carousel = forwardRef((props,ref) => {
 	const sliderWrapper = useRef()
 	const sliderAnimator = useRef()
 
@@ -52,8 +52,7 @@ export default function Carousel(props) {
 	}
 
 	const next = () => {
-		scrollToRight(currentSlidePosition + 1)
-		setCurrentSlidePosition(currentSlidePosition + 1)
+		scrollToSlide(currentSlidePosition + 1)
 	}
 
 	const scrollToLeft = (slide) => {
@@ -73,8 +72,7 @@ export default function Carousel(props) {
 
 	const prev = () => {
 		if (initialXPosition < 0) {
-			scrollToLeft(currentSlidePosition - 1)
-			setCurrentSlidePosition(currentSlidePosition - 1)
+			scrollToSlide(currentSlidePosition - 1)
 		}
 	}
   
@@ -96,25 +94,30 @@ export default function Carousel(props) {
 	}
 
 	const scrollToSlide = (slide) => {
-    
-		if (slide === currentSlidePosition) {
-			return
-		}
-		
-		if (currentSlidePosition > slide) {
-			scrollToLeft(slide)
-		} else {
-			scrollToRight(slide)
-		}
+		if (currentSlideCount >= slide) {
+	    if (slide === currentSlidePosition) {
+				return
+			}
+			
+			if (currentSlidePosition > slide) {
+				scrollToLeft(slide)
+			} else {
+				scrollToRight(slide)
+			}
 
-		setCurrentSlidePosition(slide)
+			setCurrentSlidePosition(slide)
+		} else {
+			return new Error('Slide number must be greater than slides count')
+		}
 	}
 
-	useEffect(() => {
-		if (itemWidth) {
-			scrollToSlide(props.currentSlide)
-		}
-	},[props.currentSlide,itemWidth])
+	useImperativeHandle(ref, () => ({
+		scrollToSlide,
+		next,
+		prev,
+		currentSlideCount,
+		currentSlidePosition
+	}))
 
 	useEffect(() => {
 
@@ -150,7 +153,7 @@ export default function Carousel(props) {
 		if (props.showArrows) {
 			return (
 				<React.Fragment>
-					<button 
+					<div 
 						className="carousel-arrow-wrapper"
 						style={
 							{"display": nextArrowVisible ? "block" : "none"}
@@ -158,8 +161,8 @@ export default function Carousel(props) {
 						onClick={next}
 					>
 						<props.nextArrow />
-					</button>
-					<button 
+					</div>
+					<div 
 						className="carousel-arrow-wrapper"
 						style={
 							{"display": prevArrowVisible ? "block" : "none"}
@@ -167,7 +170,7 @@ export default function Carousel(props) {
 						onClick={prev}
 					>
 						<props.prevArrow />
-					</button>
+					</div>
 				</React.Fragment>
 			)
 		}
@@ -195,11 +198,13 @@ export default function Carousel(props) {
 			</div>
 		</React.Fragment>
 	)
-}
+})
 
 Carousel.defaultProps = {
-	currentSlide: 1,
 	itemsPerSlide: 1,
 	itemsToScroll: 1,
 	showArrows: true,
+	showCounter: true
 }
+
+export default Carousel
