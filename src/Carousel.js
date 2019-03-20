@@ -95,10 +95,10 @@ const Carousel = forwardRef((props,ref) => {
 
 	const scrollToSlide = (slide) => {
 		if (currentSlideCount >= slide) {
-	    if (slide === currentSlidePosition) {
+			if (slide === currentSlidePosition) {
 				return
 			}
-			
+      
 			if (currentSlidePosition > slide) {
 				scrollToLeft(slide)
 			} else {
@@ -107,7 +107,7 @@ const Carousel = forwardRef((props,ref) => {
 
 			setCurrentSlidePosition(slide)
 		} else {
-			return new Error('Slide number must be greater than slides count')
+			return new Error("Slide number must be greater than slides count")
 		}
 	}
 
@@ -125,7 +125,7 @@ const Carousel = forwardRef((props,ref) => {
 
 		const newItemWidth = getSliderWrapperWidth() / props.itemsPerSlide || itemWidth
 		setItemWidth(newItemWidth)
-		
+    
 		if (props.children.length * newItemWidth <= getSliderWrapperWidth()) {
 			setPrevArrowVisibility(false)
 			setNextArrowVisibility(false)
