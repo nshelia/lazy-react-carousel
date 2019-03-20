@@ -147,28 +147,31 @@ export default function Carousel(props) {
 	}
 
 	const renderArrows = () => {
-		return (
-			<React.Fragment>
-				<button 
-					className="carousel-arrow-wrapper"
-					style={
-						{"display": nextArrowVisible ? "block" : "none"}
-					}
-					onClick={next}
-				>
-					<props.nextArrow />
-				</button>
-				<button 
-					className="carousel-arrow-wrapper"
-					style={
-						{"display": prevArrowVisible ? "block" : "none"}
-					}
-					onClick={prev}
-				>
-					<props.prevArrow />
-				</button>
-			</React.Fragment>
-		)
+		if (props.showArrows) {
+			return (
+				<React.Fragment>
+					<button 
+						className="carousel-arrow-wrapper"
+						style={
+							{"display": nextArrowVisible ? "block" : "none"}
+						}
+						onClick={next}
+					>
+						<props.nextArrow />
+					</button>
+					<button 
+						className="carousel-arrow-wrapper"
+						style={
+							{"display": prevArrowVisible ? "block" : "none"}
+						}
+						onClick={prev}
+					>
+						<props.prevArrow />
+					</button>
+				</React.Fragment>
+			)
+		}
+		return null
 	}
 
 	return (
@@ -191,5 +194,6 @@ export default function Carousel(props) {
 Carousel.defaultProps = {
 	currentSlide: 1,
 	itemsPerSlide: 1,
-	itemsToScroll: 1
+	itemsToScroll: 1,
+	showArrows: true,
 }
