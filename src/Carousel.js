@@ -162,7 +162,7 @@ const Carousel = forwardRef((props,ref) => {
 						}
 						onClick={next}
 					>
-						<props.nextArrow />
+						{props.nextArrow ? <props.nextArrow /> : <button>Next</button>}
 					</div>
 					<div 
 						className="carousel-arrow-wrapper"
@@ -171,7 +171,7 @@ const Carousel = forwardRef((props,ref) => {
 						}
 						onClick={prev}
 					>
-						<props.prevArrow />
+						{props.prevArrow ? <props.prevArrow /> : <button>Prev</button>}
 					</div>
 				</React.Fragment>
 			)
@@ -183,6 +183,7 @@ const Carousel = forwardRef((props,ref) => {
 		if (props.showCounter) {
 			return <span className="carousel-counter">{currentSlidePosition} / {currentSlideCount}</span>
 		}
+		return null
 	}
 
 	return (
