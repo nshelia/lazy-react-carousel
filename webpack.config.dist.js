@@ -78,8 +78,7 @@ module.exports = () => {
     plugins: [
       new MiniCssExtractPlugin({
         filename: '[name].css',
-      }),
-      new MinifyPlugin()
+      })
     ],
     devServer: {
       contentBase: path.resolve(__dirname, "./dist"), 

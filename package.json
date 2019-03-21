@@ -1,12 +1,12 @@
 {
   "name": "lazy-react-carousel",
-  "version": "1.0.0",
+  "version": "1.0.41",
   "description": "",
-  "main": "build/index.bundle.js",
+  "main": "dist/index.bundle.js",
   "scripts": {
     "dev": "webpack-dev-server --config webpack.config.dev.js --hot",
     "lint": "eslint src/*.js",
-    "build": "webpack --config webpack.config.dist.js"
+    "build": "webpack --config webpack.config.dist.js "
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
     "url": "https://github.com/nshelia/lazy-react-carousel/issues"
   },
   "homepage": "https://github.com/nshelia/lazy-react-carousel#readme",
-  "dependencies": {
+  "peerDependencies": {
     "react": "^16.8.3",
     "react-dom": "^16.8.3"
   },
@@ -52,6 +52,8 @@
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss": "^7.0.14",
     "postcss-loader": "^3.0.0",
+    "react": "16.8.3",
+    "react-dom": "16.8.3",
     "react-hot-loader": "^4.8.0",
     "resolve-url-loader": "^3.0.1",
     "sass-loader": "^7.1.0",
