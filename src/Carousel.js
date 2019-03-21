@@ -127,11 +127,12 @@ const Carousel = forwardRef((props,ref) => {
 		const newItemWidth = getSliderWrapperWidth() / props.itemsPerSlide || itemWidth
 		setItemWidth(newItemWidth)
     
-		if (props.children.length * newItemWidth <= getSliderWrapperWidth()) {
-			setPrevArrowVisibility(false)
-			setNextArrowVisibility(false)
-		}
-	},[getSliderWrapperWidth(),props.itemsPerSlide])
+		const arrowsNeeded = props.children.length * newItemWidth > getSliderWrapperWidth()
+
+		setPrevArrowVisibility(arrowsNeeded ? true : false)
+		setNextArrowVisibility(arrowsNeeded ? true : false)
+
+	},[getSliderWrapperWidth(),props.itemsPerSlide,props.children.length])
 
 	const renderList = () => {
 		if (itemWidth) {
