@@ -1,1 +1,1 @@
-# lazy-react-carousel
+# Lazy React Carousel

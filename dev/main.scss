@@ -8,7 +8,7 @@
 @import '~bootstrap/scss/grid';
 
 body {
-	background: #333;
+	background: #0E0F11;
 	color:white;
 }
 
@@ -17,12 +17,14 @@ body {
 	align-items: center;
 	padding: 50px 0px;
 	height: 100vh;
-	background: grey;
 	flex-direction: column;
 	h1 {
 		font-weight: bold;
 		text-shadow: 3px 3px black;
-		margin-bottom: 50px;
+		margin-bottom: 15px;
+	}
+	h4 {
+		margin-bottom:50px;
 	}
 }
 
@@ -48,4 +50,42 @@ body {
     width: 100%;
     height: 100%;
 	}
+}
+
+.carousel-slides-wrapper {
+	margin-bottom:20px;
+	border-radius:5px;
+}
+
+.carousel-arrows {
+	display: flex;
+	.carousel-arrow-wrapper {
+		margin-right:20px;
+	}
+}
+
+.carousel-methods {
+	margin: 20px 0px;
+	button {
+		margin: 0px 9px;
+	}
+}
+
+.carousel-method {
+	button {
+		&:disabled {
+			background: #f50057;
+			opacity:0.5;
+		}
+	}
+}
+.carousel-wrapper {
+	padding-top:15px;
+}
+
+.carousel-counter {
+	font-size: 20px;
+}
+.carousel-animator {
+	background: rgba(0,0,0,0.2);
 }

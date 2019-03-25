@@ -8,8 +8,6 @@
 	flex-wrap:nowrap;
 	overflow-x: hidden;
 	position:relative;
-	margin-bottom:10px;
-	border-radius:5px;
 }
 
 .carousel-animator {
@@ -17,7 +15,6 @@
 	transform: translate3d(0,0,0);
 	will-change: transform;
 	transition: transform 0.5s;
-	background: #333;
 }
 
 .carousel-arrow-wrapper {
@@ -30,11 +27,6 @@
 	&.hidden {
 		display: none;
 	}
-}
-
-.carousel-arrow {
-	height:25px;
-	width:25px;
 }
 
 .carousel-item {

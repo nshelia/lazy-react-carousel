@@ -17,7 +17,7 @@ module.exports = () => {
         "node_modules",
         "./dev",
       ],
-      extensions: [".js","scss",".jsx"],
+      extensions: [".js",".jsx"],
     },
     module: {
       rules: [
@@ -40,7 +40,17 @@ module.exports = () => {
           ]
         },
         {
-          test: /\.(png|jpg|gif|svg|ico)$/,
+          test: /\.css$/,
+          use: [
+            'style-loader',
+            'css-loader',
+            'postcss-loader?sourceMap',
+            'resolve-url-loader',
+            'import-glob-loader'
+          ]
+        },
+        {
+          test: /\.(png|jpg|gif|svg|ico|eot|ttf|woff|woff2)$/,
           loader: 'file-loader'
         },
       ]
