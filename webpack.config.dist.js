@@ -19,7 +19,10 @@ module.exports = () => {
       ]
     },
     entry: {
-      index: './src/index'
+      index: [
+        './src/index',
+        './src/sass/carousel.scss'
+      ]
     },
     output: {
       path: path.resolve(__dirname, "./dist"),

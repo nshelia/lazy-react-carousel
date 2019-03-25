@@ -1,0 +1,13 @@
+[ignore]
+.*/dist/.*
+.*/dev/.*
+
+[include]
+
+[libs]
+
+[lints]
+
+[options]
+
+[strict]

@@ -1,9 +1,40 @@
-import React, { useImperativeHandle, forwardRef, useRef, useState, useEffect } from "react"
-import "./sass/carousel.scss"
+// @flow
 
-const Carousel = forwardRef((props,ref) => {
-  const sliderWrapper = useRef()
-  const sliderAnimator = useRef()
+import React, { useImperativeHandle, forwardRef, useRef, useState, useEffect } from "react"
+
+type Props = {
+  children: Array<React$Node>,
+  prevArrow: (params: {visible: bool}) => React$Node,
+  nextArrow: (params: {visible: bool}) => React$Node,
+  itemsPerSlide: number,
+  itemsToScroll: number,
+  showArrows?: boolean,
+  showCounter?: boolean
+};
+
+type Methods = {
+
+}
+
+type RefObject = {
+  current: null | ?HTMLDivElement
+}
+
+const Carousel = forwardRef<
+  Props,
+  Methods
+  >(({  
+    itemsPerSlide = 1,
+    itemsToScroll = 1,
+    showArrows = true,
+    showCounter = true,
+    children,
+    nextArrow,
+    prevArrow
+  },ref) => {
+
+  const sliderWrapper: RefObject = useRef()
+  const sliderAnimator: RefObject = useRef()
 
   const [itemWidth, setItemWidth] = useState(0)
   const [nextArrowVisible, setNextArrowVisibility] = useState(true)
@@ -12,12 +43,12 @@ const Carousel = forwardRef((props,ref) => {
   const [currentSlidePosition, setCurrentSlidePosition] = useState(1)
   const [currentSlideCount, setCurrentSlideCount] = useState(0)
 
-  const scrollToRight = (slide) => {
-    const remainSlides = slide - currentSlidePosition
+  const scrollToRight = (slide: number) => {
+    const remainSlides: number = slide - currentSlidePosition
 
-    const sliderAnimatorRef = sliderAnimator.current
-    let nextPosition = initialXPosition - (itemWidth * props.itemsToScroll * remainSlides) 
-    const remainWidthBeforeLastItem = sliderAnimatorRef.offsetWidth + nextPosition - getSliderWrapperWidth()
+
+    let nextPosition: number = initialXPosition - (itemWidth * itemsToScroll * remainSlides) 
+    const remainWidthBeforeLastItem: number = getSliderAnimatorWidth() + nextPosition - getSliderWrapperWidth()
 
     if (remainWidthBeforeLastItem < itemWidth) {
       nextPosition -= remainWidthBeforeLastItem
@@ -31,23 +62,29 @@ const Carousel = forwardRef((props,ref) => {
   }
 
   const calculateSlideCount = () => {
-    if (sliderWrapper.current && sliderAnimator.current) { 
-      let calculated = false
-      let slides = 1
-      let initialXPosition = 0
-      if (props.children.length * itemWidth <= getSliderWrapperWidth()) {
+    const sliderAnimatorWidth: number = getSliderAnimatorWidth()
+    const sliderWrapperWidth: number = getSliderWrapperWidth()
+
+    let simulated: boolean = false
+    let slides: number = 1
+    let initialXPosition: number = 0
+
+    if (sliderWrapperWidth && sliderAnimatorWidth) { 
+      if (children.length * itemWidth <= sliderWrapperWidth) {
         return slides
       }
-      while (!calculated) {
-        let nextPosition = initialXPosition - (itemWidth * props.itemsToScroll) 
+      while (!simulated) {
+        let nextPosition: number = initialXPosition - (itemWidth * itemsToScroll) 
         initialXPosition = nextPosition
-        const remainWidthBeforeLastItem = getSliderAnimatorWidth() + nextPosition - getSliderWrapperWidth()
+        const remainWidthBeforeLastItem: number = sliderAnimatorWidth + nextPosition - sliderWrapperWidth
         if (remainWidthBeforeLastItem < itemWidth) {
           nextPosition -= remainWidthBeforeLastItem
-          calculated = true
+          simulated = true
         }
         slides++
       }
+      return slides
+    } else {
       return slides
     }
   }
@@ -57,10 +94,10 @@ const Carousel = forwardRef((props,ref) => {
   }
 
   const scrollToLeft = (slide) => {
-    const remainSlides = currentSlidePosition - slide
+    const remainSlides: number = currentSlidePosition - slide
 
-    let nextPosition = initialXPosition + (itemWidth * props.itemsToScroll * remainSlides) 
-    const absNextPosition = Math.abs(nextPosition) 
+    let nextPosition: number = initialXPosition + (itemWidth * itemsToScroll * remainSlides) 
+    const absNextPosition: number = Math.abs(nextPosition) 
     if (nextPosition === absNextPosition) {
       nextPosition = 0
     }
@@ -81,20 +118,24 @@ const Carousel = forwardRef((props,ref) => {
     if (sliderWrapper.current) {
       return sliderWrapper.current.clientWidth
     }
+    return 0
   }
 
   const getSliderAnimatorWidth = () => {
     if (sliderAnimator.current) {
       return sliderAnimator.current.offsetWidth
     }
+    return 0
   }
 
-  const setTranslate = (xPos) =>  {
-    const sliderAnimatorRef = sliderAnimator.current
-    sliderAnimatorRef.style.transform = `translate3d(${xPos}px, 0px, 0)`
+  const setTranslate = (xPos: number) =>  {
+    const sliderAnimatorRef: null | ?HTMLDivElement = sliderAnimator.current
+    if (sliderAnimatorRef) {
+      sliderAnimatorRef.style.transform = `translate3d(${xPos}px, 0px, 0)`
+    }
   }
 
-  const scrollToSlide = (slide) => {
+  const scrollToSlide = (slide: number) => {
     if (currentSlideCount >= slide) {
       if (slide === currentSlidePosition) {
         return
@@ -121,21 +162,27 @@ const Carousel = forwardRef((props,ref) => {
   }))
 
   useEffect(() => {
+    const slideCount = calculateSlideCount()
 
-    setCurrentSlideCount(calculateSlideCount())
+    setCurrentSlideCount(slideCount)
 
-    const newItemWidth = getSliderWrapperWidth() / props.itemsPerSlide || itemWidth
-    setItemWidth(newItemWidth)
+    const sliderWrapperWidth = getSliderWrapperWidth()
     
-    const arrowsNeeded = props.children.length * newItemWidth > getSliderWrapperWidth()
+    if (sliderWrapperWidth) {
 
-    setNextArrowVisibility(arrowsNeeded ? true : false)
+      const newItemWidth: number = sliderWrapperWidth / itemsPerSlide || itemWidth
+      setItemWidth(newItemWidth)
+        
+      const arrowsNeeded: boolean = children.length * newItemWidth > sliderWrapperWidth
 
-  },[getSliderWrapperWidth(),props.itemsPerSlide,props.children.length])
+      setNextArrowVisibility(arrowsNeeded)
+    }
+
+  },[getSliderWrapperWidth(),itemsPerSlide,children.length])
 
   const renderList = () => {
     if (itemWidth) {
-      return React.Children.map(props.children, (item,index) => {
+      return React.Children.toArray(children).map((item,index) => {
         return (
           <div 
             key={index}
@@ -151,7 +198,9 @@ const Carousel = forwardRef((props,ref) => {
   }
 
   const renderArrows = () => {
-    if (props.showArrows) {
+    if (showArrows) {
+      const PrevArrow = prevArrow  
+      const NextArrow = nextArrow  
 
       return (
         <React.Fragment>
@@ -159,13 +208,13 @@ const Carousel = forwardRef((props,ref) => {
             className="carousel-arrow-wrapper"
             onClick={prev}
           >
-            {props.prevArrow ? <props.prevArrow visible={prevArrowVisible}/> : <button>Prev</button>}
+           <PrevArrow visible={prevArrowVisible}/>
           </div>
           <div 
             className="carousel-arrow-wrapper"
             onClick={next}
           >
-            {props.nextArrow ? <props.nextArrow visible={nextArrowVisible}/> : <button>Next</button>}
+            <NextArrow visible={nextArrowVisible}/>
           </div>
         </React.Fragment>
       )
@@ -174,7 +223,7 @@ const Carousel = forwardRef((props,ref) => {
   }
 
   const renderCounter = () => {
-    if (props.showCounter) {
+    if (showCounter) {
       return <span className="carousel-counter">{currentSlidePosition} / {currentSlideCount}</span>
     }
     return null
@@ -199,11 +248,6 @@ const Carousel = forwardRef((props,ref) => {
   )
 })
 
-Carousel.defaultProps = {
-  itemsPerSlide: 1,
-  itemsToScroll: 1,
-  showArrows: true,
-  showCounter: true
-}
+
 
 export default Carousel
