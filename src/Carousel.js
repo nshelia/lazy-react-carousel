@@ -129,7 +129,6 @@ const Carousel = forwardRef((props,ref) => {
     
     const arrowsNeeded = props.children.length * newItemWidth > getSliderWrapperWidth()
 
-    setPrevArrowVisibility(arrowsNeeded ? true : false)
     setNextArrowVisibility(arrowsNeeded ? true : false)
 
   },[getSliderWrapperWidth(),props.itemsPerSlide,props.children.length])
@@ -153,25 +152,20 @@ const Carousel = forwardRef((props,ref) => {
 
   const renderArrows = () => {
     if (props.showArrows) {
+
       return (
         <React.Fragment>
           <div 
             className="carousel-arrow-wrapper"
-            style={
-              {"display": nextArrowVisible ? "block" : "none"}
-            }
-            onClick={next}
+            onClick={prev}
           >
-            {props.nextArrow ? <props.nextArrow /> : <button>Next</button>}
+            {props.prevArrow ? <props.prevArrow visible={prevArrowVisible}/> : <button>Prev</button>}
           </div>
           <div 
             className="carousel-arrow-wrapper"
-            style={
-              {"display": prevArrowVisible ? "block" : "none"}
-            }
-            onClick={prev}
+            onClick={next}
           >
-            {props.prevArrow ? <props.prevArrow /> : <button>Prev</button>}
+            {props.nextArrow ? <props.nextArrow visible={nextArrowVisible}/> : <button>Next</button>}
           </div>
         </React.Fragment>
       )
@@ -197,7 +191,9 @@ const Carousel = forwardRef((props,ref) => {
             {renderList()}
           </div>
         </div>
-        {renderArrows()}
+        <div className="carousel-arrows">
+          {renderArrows()}
+        </div>
       </div>
     </React.Fragment>
   )
