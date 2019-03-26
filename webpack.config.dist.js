@@ -82,14 +82,6 @@ module.exports = () => {
       new MiniCssExtractPlugin({
         filename: '[name].css',
       })
-    ],
-    devServer: {
-      contentBase: path.resolve(__dirname, "./dist"), 
-      port: 3000,
-      open: true,
-      compress: true, 
-      https: false, 
-      historyApiFallback: true
-    }
+    ]
   }
 }

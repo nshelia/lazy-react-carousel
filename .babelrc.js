@@ -1,7 +1,6 @@
 let plugins = [] 
 module.exports = api => {
-  const isDev = api.cache(() => process.env.NODE_ENV === "development");
-  if (isDev) {
+  if (api.env() !== 'production') {
     plugins.unshift("react-hot-loader/babel");
   }
   return {
