@@ -3,6 +3,7 @@
 import React, { useImperativeHandle, forwardRef, useRef, useState, useEffect } from "react"
 
 type Props = {
+  lazy: boolean,
   scrollDuration: 500,
   children: Array<React$Node>,
   prevArrow?: (params: {visible: bool}) => React$Node,
@@ -25,6 +26,7 @@ const Carousel = forwardRef<
   Props,
   Methods
   >(({
+    lazy = true,
     scrollDuration = 500,  
     itemsPerSlide = 2,
     itemsToScroll = 1,
@@ -70,7 +72,7 @@ const Carousel = forwardRef<
     let simulated: boolean = false
     let slides: number = 1
     let initialXPosition: number = 0
-
+    console.log(children.length)
     if (sliderWrapperWidth && sliderAnimatorWidth) { 
       if (children.length * itemWidth <= sliderWrapperWidth) {
         return slides
@@ -183,17 +185,48 @@ const Carousel = forwardRef<
   },[getSliderWrapperWidth(),itemsPerSlide,children.length])
 
   const renderList = () => {
-    if (itemWidth) {
-      return React.Children.toArray(children).map((item,index) => {
-        return (
-          <div 
-            key={index}
-            className="carousel-item"
-            style={{width: `${itemWidth}px`}} 
-          > 
-            <item.type {...item.props} />
-          </div>
-        )
+    const carouselChildren = React.Children.toArray(children)
+
+    if (itemWidth && carouselChildren.length) {
+      let result
+
+      if (lazy) {
+        let visibleItemsCount = itemsPerSlide + (currentSlidePosition * itemsToScroll) - itemsToScroll
+
+        let notVisibleItemsCount = carouselChildren.length - visibleItemsCount
+
+        const visibleComponents = carouselChildren.slice(0,visibleItemsCount)
+        const virtualizedItems = Array(notVisibleItemsCount > 0 ? notVisibleItemsCount : 0 ).fill(null)
+
+        if (notVisibleItemsCount > 0) {
+          result = visibleComponents.concat(virtualizedItems)
+        } else {
+          result = visibleComponents 
+        }
+      } else {
+        result = carouselChildren
+      }
+
+      return result.map((item,index) => {
+        if (item) {
+          return (
+            <div 
+              key={index}
+              className="carousel-item"
+              style={{width: `${itemWidth}px`}} 
+            > 
+              <item.type {...item.props} />
+            </div>
+          )
+        } else {
+          return (
+            <div 
+              key={index}
+              className="carousel-item"
+              style={{width: `${itemWidth}px`}} 
+            /> 
+          ) 
+        }
       })
     }
     return null
