@@ -1,6 +1,7 @@
 // @flow
 
 import React, { useImperativeHandle, forwardRef, useRef, useState, useEffect } from "react"
+import useResizeObserver from "use-resize-observer";
 
 type Props = {
   lazy: boolean,
@@ -46,10 +47,10 @@ const Carousel = forwardRef<
   const [initialXPosition, setInitialXPosition] = useState(0)
   const [currentSlidePosition, setCurrentSlidePosition] = useState(1)
   const [currentSlideCount, setCurrentSlideCount] = useState(0)
+  const [resizeRef, resizedWidth] = useResizeObserver();
 
   const scrollToRight = (slide: number) => {
     const remainSlides: number = slide - currentSlidePosition
-
 
     let nextPosition: number = initialXPosition - (itemWidth * itemsToScroll * remainSlides) 
     const remainWidthBeforeLastItem: number = getSliderAnimatorWidth() + nextPosition - getSliderWrapperWidth()
@@ -72,7 +73,7 @@ const Carousel = forwardRef<
     let simulated: boolean = false
     let slides: number = 1
     let initialXPosition: number = 0
-    console.log(children.length)
+  
     if (sliderWrapperWidth && sliderAnimatorWidth) { 
       if (children.length * itemWidth <= sliderWrapperWidth) {
         return slides
@@ -269,9 +270,9 @@ const Carousel = forwardRef<
       <div style={{"display": "flex","alignItems": "center","flexDirection": "column"}}>
         {renderCounter()}
       </div>
-      <div className="carousel-wrapper">
+      <div className="carousel-wrapper" ref={resizeRef}>
         <div className="carousel-slides-wrapper" ref={sliderWrapper}>
-          <div className="carousel-animator" style={{ "transition": `transform 0.${scrollDuration}s`}} ref={sliderAnimator}>
+          <div className="carousel-animator" style={{ "transition": `transform ${scrollDuration / 1000}s`}} ref={sliderAnimator}>
             {renderList()}
           </div>
         </div>

@@ -72,8 +72,9 @@ function Application() {
 				
 				<div className="col-12">
 					<Carousel
-						scrollDuration={200}
-						itemsPerSlide={3}
+						scrollDuration={1000}
+						itemsPerSlide={2}
+						itemsToScroll={2}
 						nextArrow={nextArrow}
 						prevArrow={prevArrow}
 						ref={ref}
