@@ -3,9 +3,10 @@
 import React, { useImperativeHandle, forwardRef, useRef, useState, useEffect } from "react"
 
 type Props = {
+  scrollDuration: 500,
   children: Array<React$Node>,
-  prevArrow: (params: {visible: bool}) => React$Node,
-  nextArrow: (params: {visible: bool}) => React$Node,
+  prevArrow?: (params: {visible: bool}) => React$Node,
+  nextArrow?: (params: {visible: bool}) => React$Node,
   itemsPerSlide: number,
   itemsToScroll: number,
   showArrows?: boolean,
@@ -23,14 +24,15 @@ type RefObject = {
 const Carousel = forwardRef<
   Props,
   Methods
-  >(({  
-    itemsPerSlide = 1,
+  >(({
+    scrollDuration = 500,  
+    itemsPerSlide = 2,
     itemsToScroll = 1,
     showArrows = true,
     showCounter = true,
     children,
     nextArrow,
-    prevArrow
+    prevArrow,
   },ref) => {
 
   const sliderWrapper: RefObject = useRef()
@@ -208,13 +210,13 @@ const Carousel = forwardRef<
             className="carousel-arrow-wrapper"
             onClick={prev}
           >
-           <PrevArrow visible={prevArrowVisible}/>
+            {PrevArrow ? <PrevArrow visible={prevArrowVisible}/> : <button>Prev</button> }
           </div>
           <div 
             className="carousel-arrow-wrapper"
             onClick={next}
           >
-            <NextArrow visible={nextArrowVisible}/>
+            { NextArrow ? <NextArrow visible={nextArrowVisible}/> : <button>Prev</button> }
           </div>
         </React.Fragment>
       )
@@ -236,7 +238,7 @@ const Carousel = forwardRef<
       </div>
       <div className="carousel-wrapper">
         <div className="carousel-slides-wrapper" ref={sliderWrapper}>
-          <div className="carousel-animator" ref={sliderAnimator}>
+          <div className="carousel-animator" style={{ "transition": `transform 0.${scrollDuration}s`}} ref={sliderAnimator}>
             {renderList()}
           </div>
         </div>

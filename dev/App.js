@@ -70,8 +70,10 @@ function Application() {
 					<Button variant="contained" color="primary" onClick={() => ref.current.scrollToSlide(5)}>go to slide 5</Button>
 				</div>
 				
-				<div className="col-8">
+				<div className="col-12">
 					<Carousel
+						scrollDuration={200}
+						itemsPerSlide={3}
 						nextArrow={nextArrow}
 						prevArrow={prevArrow}
 						ref={ref}
