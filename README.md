@@ -1,4 +1,5 @@
 # Lazy React Carousel :tada:
+[![npm version](https://img.shields.io/npm/v/lazy-react-carousel.svg?style=flat)](https://www.npmjs.com/package/lazy-react-carousel)
 
 ### Prop Types
 | Property | Type | Required? | Description |

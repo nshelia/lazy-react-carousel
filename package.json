@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "webpack-dev-server --config webpack.config.dev.js --hot",
     "lint": "eslint src/*.js",
-    "build": "webpack --config webpack.config.dist.js",
-    "prepublish": "yarn run build",
+    "build": "BABEL_ENV=production webpack --config webpack.config.dist.js ",
     "flow-start": "flow start",
     "flow-status": "flow status"
   },
