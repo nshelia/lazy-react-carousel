@@ -254,13 +254,13 @@ const Carousel = forwardRef<
               className="carousel-arrow-wrapper"
               onClick={prev}
             >
-              {PrevArrow ? <PrevArrow visible={prevArrowVisible}/> : <button>Prev</button> }
+              {PrevArrow ? <PrevArrow visible={prevArrowVisible} /> : <button>Prev</button> }
             </div>
             <div 
               className="carousel-arrow-wrapper"
               onClick={next}
             >
-              { NextArrow ? <NextArrow visible={nextArrowVisible}/> : <button>Prev</button> }
+              { NextArrow ? <NextArrow visible={nextArrowVisible} /> : <button>Prev</button> }
             </div>
           </React.Fragment>
         )
@@ -270,14 +270,19 @@ const Carousel = forwardRef<
 
     const renderCounter = () => {
       if (showCounter) {
-        return <span className="carousel-counter">{currentSlidePosition} / {currentSlideCount}</span>
+        return (
+          <span className="carousel-counter">
+            {currentSlidePosition} / {currentSlideCount}
+          </span>
+        )
+      
       }
       return null
     }
 
     return (
       <React.Fragment>
-        <div style={{"display": "flex","alignItems": "center","flexDirection": "column"}}>
+        <div className="carousel-counter">
           {renderCounter()}
         </div>
         <div className="carousel-wrapper" ref={resizeRef}>
