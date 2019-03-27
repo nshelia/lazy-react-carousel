@@ -1,7 +1,8 @@
 // @flow
 
 import React, { useImperativeHandle, forwardRef, useRef, useState, useEffect } from "react"
-import useResizeObserver from "use-resize-observer";
+import type { Node } from "react"
+import useResizeObserver from "./helpers/use-resize-observer"
 
 type Props = {
   lazy: boolean,
