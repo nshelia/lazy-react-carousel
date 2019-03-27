@@ -69,9 +69,20 @@ body {
 	button {
 		margin: 0px 9px;
 	}
+
+	.carousel-switch-bar {
+		background-color: #fff;
+	}
+	.carousel-switch-group {
+		justify-content: center;
+	}
+	.carousel-switch-label {
+		color: #f2f2f2;
+	}
 }
 
 .carousel-method {
+
 	button {
 		&:disabled {
 			background: #f50057;
