@@ -1,6 +1,6 @@
 {
   "name": "lazy-react-carousel",
-  "version": "1.0.5",
+  "version": "1.0.57",
   "description": "",
   "main": "dist/index.bundle.js",
   "scripts": {
@@ -19,6 +19,15 @@
   "bugs": {
     "url": "https://github.com/nshelia/lazy-react-carousel/issues"
   },
+  "keywords": [
+    "carousel",
+    "slider",
+    "responsive carousel",
+    "react carusel",
+    "react slider",
+    "react lazy",
+    "lazy loading"
+  ],
   "homepage": "https://github.com/nshelia/lazy-react-carousel#readme",
   "peerDependencies": {
     "react": "^16.8.3",
@@ -70,7 +79,5 @@
     "webpack-dev-server": "^3.2.1",
     "webpack-hot-middleware": "^2.24.3"
   },
-  "dependencies": {
-    "use-resize-observer": "^3.1.0"
-  }
+  "dependencies": {}
 }
