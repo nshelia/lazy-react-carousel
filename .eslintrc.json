@@ -24,6 +24,8 @@
         "react-hooks"
     ],
     "rules": {
+        "react/jsx-tag-spacing": [1],
+        "react/jsx-wrap-multilines": [1],
         "react/prop-types": [0],
         "indent": [
             "error",
