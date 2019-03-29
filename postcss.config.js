@@ -1,4 +1,4 @@
-const autoprefixer = require('autoprefixer')
+const autoprefixer = require("autoprefixer")
 
 const plugins = [
 
@@ -6,7 +6,7 @@ const plugins = [
 if (process.env.NODE_ENV === "production") {
   plugins.push(
     autoprefixer({
-      browsers: ['> 0%']
+      browsers: ["> 0%"]
     })
   )
 }

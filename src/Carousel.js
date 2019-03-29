@@ -30,7 +30,7 @@ const Carousel = forwardRef<
   >(({
     lazy = true,
     scrollDuration = 500,  
-    itemsPerSlide = 2,
+    itemsPerSlide = 1,
     itemsToScroll = 1,
     showArrows = true,
     showCounter = true,
@@ -48,7 +48,7 @@ const Carousel = forwardRef<
     const [initialXPosition, setInitialXPosition] = useState(0)
     const [currentSlidePosition, setCurrentSlidePosition] = useState(1)
     const [currentSlideCount, setCurrentSlideCount] = useState(0)
-    const [resizeRef] = useResizeObserver()
+    const [resizeRef,resizedCarouselWrapperWidth] = useResizeObserver()
     const [scrolledSlides,setScrolledSlides] = useState(1)
 
     const scrollToRight = (slide: number) => {
@@ -92,7 +92,7 @@ const Carousel = forwardRef<
         }
         return slides
       } else {
-        return slides
+        return 0
       }
     }
 
@@ -169,6 +169,7 @@ const Carousel = forwardRef<
     }))
 
     useEffect(() => {
+
       if (currentSlidePosition > scrolledSlides) {
         setScrolledSlides(currentSlidePosition)
       }
@@ -176,11 +177,12 @@ const Carousel = forwardRef<
  
     useEffect(() => {
       const slideCount = calculateSlideCount()
-
-      setCurrentSlideCount(slideCount)
-
       const sliderWrapperWidth = getSliderWrapperWidth()
-    
+
+      if (!currentSlideCount) {
+        setCurrentSlideCount(slideCount)
+      }
+     
       if (sliderWrapperWidth) {
 
         const newItemWidth: number = sliderWrapperWidth / itemsPerSlide || itemWidth
@@ -191,7 +193,7 @@ const Carousel = forwardRef<
         setNextArrowVisibility(arrowsNeeded)
       }
 
-    },[getSliderWrapperWidth(),itemsPerSlide,children.length])
+    },[getSliderWrapperWidth(),itemsPerSlide,children.length,resizedCarouselWrapperWidth])
 
 
     const renderList = () => {
