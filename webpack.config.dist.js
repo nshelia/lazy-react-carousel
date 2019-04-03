@@ -20,8 +20,7 @@ module.exports = () => {
     },
     entry: {
       index: [
-        './src/index',
-        './src/sass/carousel.scss'
+        './src/index'
       ]
     },
     output: {
