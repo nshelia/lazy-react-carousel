@@ -1,7 +1,7 @@
 // @flow
 
 import React, { useImperativeHandle, forwardRef, useRef, useState, useEffect } from "react"
-import type { Node } from "react"
+import type { Node, ChildrenArray, Element } from "react"
 import useResizeObserver from "./helpers/use-resize-observer"
 
 type Props = {
@@ -55,7 +55,7 @@ const Carousel = forwardRef<
       const remainSlides: number = slide - currentSlidePosition
 
       let nextPosition: number = initialXPosition - (itemWidth * itemsToScroll * remainSlides) 
-      const remainWidthBeforeLastItem: number = getSliderAnimatorWidth() + nextPosition - getSliderWrapperWidth()
+      const remainWidthBeforeLastItem: number = getSliderAnimatorWidth() + nextPosition - resizedCarouselWrapperWidth
 
       if (remainWidthBeforeLastItem < itemWidth) {
         nextPosition -= remainWidthBeforeLastItem
@@ -69,23 +69,23 @@ const Carousel = forwardRef<
     }
 
     const calculateSlideCount = () => {
-      const sliderAnimatorWidth: number = getSliderAnimatorWidth()
-      const sliderWrapperWidth: number = getSliderWrapperWidth()
+      const sliderWrapperWidth: number = resizedCarouselWrapperWidth
+      const remainTrackWidth: number = getSliderAnimatorWidth() - sliderWrapperWidth 
 
       let simulated: boolean = false
       let slides: number = 1
       let initialXPosition: number = 0
   
-      if (sliderWrapperWidth && sliderAnimatorWidth) { 
+      if (sliderWrapperWidth && remainTrackWidth) {
         if (children.length * itemWidth <= sliderWrapperWidth) {
           return slides
         }
         while (!simulated) {
           let nextPosition: number = initialXPosition - (itemWidth * itemsToScroll) 
           initialXPosition = nextPosition
-          const remainWidthBeforeLastItem: number = sliderAnimatorWidth + nextPosition - sliderWrapperWidth
+          const remainWidthBeforeLastItem: number = remainTrackWidth + nextPosition
+
           if (remainWidthBeforeLastItem < itemWidth) {
-            nextPosition -= remainWidthBeforeLastItem
             simulated = true
           }
           slides++
@@ -120,13 +120,6 @@ const Carousel = forwardRef<
         scrollToSlide(currentSlidePosition - 1)
       }
     }
-  
-    const getSliderWrapperWidth = () => {
-      if (sliderWrapper.current) {
-        return sliderWrapper.current.clientWidth
-      }
-      return 0
-    }
 
     const getSliderAnimatorWidth = () => {
       if (sliderAnimator.current) {
@@ -134,6 +127,7 @@ const Carousel = forwardRef<
       }
       return 0
     }
+
 
     const setTranslate = (xPos: number) =>  {
       const sliderAnimatorRef: null | ?HTMLDivElement = sliderAnimator.current
@@ -156,7 +150,7 @@ const Carousel = forwardRef<
 
         setCurrentSlidePosition(slide)
       } else {
-        return new Error("Slide number must be greater than slides count")
+        return console.error("Slide number must be greater than slides count")
       }
     }
 
@@ -173,27 +167,27 @@ const Carousel = forwardRef<
       if (currentSlidePosition > scrolledSlides) {
         setScrolledSlides(currentSlidePosition)
       }
+
     },[currentSlidePosition])
  
     useEffect(() => {
       const slideCount = calculateSlideCount()
-      const sliderWrapperWidth = getSliderWrapperWidth()
 
-      if (!currentSlideCount) {
-        setCurrentSlideCount(slideCount)
-      }
-     
-      if (sliderWrapperWidth) {
+      setCurrentSlideCount(slideCount)
+    })
 
-        const newItemWidth: number = sliderWrapperWidth / itemsPerSlide || itemWidth
+    useEffect(() => {
+      if (resizedCarouselWrapperWidth) {
+
+        const newItemWidth: number = resizedCarouselWrapperWidth / itemsPerSlide || itemWidth
         setItemWidth(newItemWidth)
         
-        const arrowsNeeded: boolean = children.length * newItemWidth > sliderWrapperWidth
+        const arrowsNeeded: boolean = children.length * newItemWidth > resizedCarouselWrapperWidth
 
         setNextArrowVisibility(arrowsNeeded)
       }
 
-    },[getSliderWrapperWidth(),itemsPerSlide,children.length,resizedCarouselWrapperWidth])
+    },[itemsPerSlide,children.length,resizedCarouselWrapperWidth])
 
 
     const renderList = () => {
@@ -213,7 +207,6 @@ const Carousel = forwardRef<
           if (notVisibleItemsCount > 0) {
             result = visibleComponents.concat(virtualizedItems)
           } else {
-          //All items loaded
             result = visibleComponents 
           }
         } else {
@@ -262,7 +255,7 @@ const Carousel = forwardRef<
               className="carousel-arrow-wrapper"
               onClick={next}
             >
-              { NextArrow ? <NextArrow visible={nextArrowVisible} /> : <button>Prev</button> }
+              { NextArrow ? <NextArrow visible={nextArrowVisible} /> : <button>Next</button> }
             </div>
           </React.Fragment>
         )
