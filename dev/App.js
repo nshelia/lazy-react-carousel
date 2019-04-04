@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react"
-import Carousel from "../src/Carousel"
+import Carousel from "../dist/index.bundle.js"
 import { hot } from "react-hot-loader/root"
 import Button from "@material-ui/core/Button"
 import Switch from "@material-ui/core/Switch"
@@ -89,17 +89,6 @@ function Application() {
               }
               classes={{ label: "carousel-switch-label" }}
               label="Hide/Show Arrows"
-            />
-            <FormControlLabel
-              control={
-                <Switch
-                  classes={{ bar: "carousel-switch-bar" }}
-                  checked={parameters.showCounter}
-                  onChange={() => setParameters({...parameters, showCounter: !parameters.showCounter})}
-                />
-              }
-              classes={{ label: "carousel-switch-label" }}
-              label="Hide/Show Counter"
             />
           </FormGroup>
           

@@ -29,7 +29,6 @@ Add base styles to slider (Might be removed in future versions, instead add dire
 | itemsPerSlide | Number | 1 | Number of items visible in one slide |
 | itemsToScroll | Number | 1 | Number of items to scroll on navigation |
 | showArrows | Boolean | true | Hide/Show default arrow components|
-| showCounter | Boolean | true | Hide/Show default counter component |
 | nextArrow | Node | Button | Show custom right arrow component |
 | prevArrow | Node | Button | Show custom left arrow component |
 | scrollDuration | Number | 500 | Scrolling animation time in milliseconds |
